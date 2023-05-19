@@ -1,0 +1,13 @@
+.tags--list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  .tag {
+    list-style: none;
+    border-radius: 1rem;
+    padding: 4px 12px;
+    font-size: 0.9em;
+    border: 1px solid;
+    font-weight: 600;
+  }
+}
