@@ -32,8 +32,11 @@ const Tags = ({ user }: TagsProps) => {
     setAllTags(result);
   };
 
+  useEffect(() => {
+    getAllTags();
+  }, [user]);
+
   const mapTags = async () => {
-    if (!userTags.length) return;
     setUserTagObjects(
       userTags.reduce((acc: TagType[], elem: string) => {
         let match = allTags.find((tag) => tag.uuid === elem);
@@ -44,11 +47,6 @@ const Tags = ({ user }: TagsProps) => {
       }, [])
     );
   };
-
-  useEffect(() => {
-    // getUserTags();
-    getAllTags();
-  }, [user]);
 
   useEffect(() => {
     mapTags();
@@ -63,7 +61,6 @@ const Tags = ({ user }: TagsProps) => {
       console.error(e);
     } finally {
       await getUserTags();
-      await mapTags();
       setInput('');
     }
   };
@@ -79,8 +76,6 @@ const Tags = ({ user }: TagsProps) => {
     }
   };
 
-  if (!userTagObjects.length) return null;
-
   return (
     <div
       className='tags'
@@ -93,7 +88,12 @@ const Tags = ({ user }: TagsProps) => {
       <div className='tags--items'>
         <ul className='tags--list' tabIndex={2}>
           {userTagObjects.map((tag) => (
-            <Tag key={tag.uuid} user={user} tag={tag} />
+            <Tag
+              key={tag.uuid}
+              user={user}
+              tag={tag}
+              setUserTags={setUserTags}
+            />
           ))}
           {showInput ? (
             <div>
