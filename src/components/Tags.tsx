@@ -1,7 +1,7 @@
 import '../styles/Tags.scss';
 import Tag from './Tag';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import { User } from '../types';
 import { fetchTags, fetchUserTags, assignUserTag, createTag } from '../api';
@@ -18,16 +18,6 @@ const Tags = ({ user }: TagsProps) => {
   const [userTagObjects, setUserTagObjects] = useState<TagType[]>([]);
   const [showInput, setShowInput] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
-
-  const nameRef = useRef<HTMLInputElement>(null);
-
-  const focus = () => {
-    nameRef.current?.focus();
-  };
-
-  const blur = () => {
-    nameRef.current?.blur();
-  };
 
   const showSuggestions = input.length > 0;
 
@@ -81,16 +71,15 @@ const Tags = ({ user }: TagsProps) => {
                 className='picker--input'
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                ref={nameRef}
+                onKeyDown={(e) => {
+                  !showSuggestions && e.key === 'Tab' && setShowInput(false);
+                }}
+                onBlur={(e) => {
+                  !showSuggestions && setShowInput(false);
+                }}
               />
               {showSuggestions && (
-                <ul
-                  className='picker--options'
-                  onBlur={() => {
-                    setInput('');
-                    setShowInput(false);
-                  }}
-                >
+                <ul className='picker--options'>
                   {allTags
                     .filter(
                       (tag) =>
@@ -101,8 +90,11 @@ const Tags = ({ user }: TagsProps) => {
                       <li
                         className='picker--option'
                         onClick={(e) => {
-                          e.stopPropagation(); // TOOD:check if this is actually necessary
+                          // e.stopPropagation(); // TOOD:check if this is actually necessary
                           selectTag(user.uuid, tag.uuid);
+                        }}
+                        onKeyDown={(e) => {
+                          e.key === 'Enter' && selectTag(user.uuid, tag.uuid);
                         }}
                         key={tag.uuid}
                         tabIndex={0}
@@ -117,6 +109,10 @@ const Tags = ({ user }: TagsProps) => {
                       e.key === 'Enter' && createNewTag(input, user.uuid);
                     }}
                     tabIndex={0}
+                    onBlur={() => {
+                      setInput('');
+                      setShowInput(false);
+                    }}
                   >
                     <span className='picker--icon'></span>
                     <span className='picker--text'>CREATE TAG</span>
