@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { User } from '../types';
 import { fetchTags, fetchUserTags, assignUserTag, createTag } from '../api';
 import { Tag as TagType, UserTags } from '../types';
+import { getAllTags, mapTags } from '../utils/helper';
 
 type TagsProps = {
   user: User;
@@ -23,43 +24,25 @@ const Tags = ({ user }: TagsProps) => {
   // TODO: finish building out input here, then pull it out to it's own component
   // TODO: pull these out as helper functions
 
-  const getAllTags = async () => {
-    const result = await fetchTags();
-    setAllTags(result);
-  };
+  useEffect(() => {
+    getAllTags(setAllTags);
+  }, [user, userTags]);
 
   useEffect(() => {
-    getAllTags();
-  }, [user]);
-
-  useEffect(() => {
-    const mapTags = async () => {
-      setUserTagObjects(
-        userTags.reduce((acc: TagType[], elem: string) => {
-          let match = allTags.find((tag) => tag.uuid === elem);
-          if (match) {
-            acc.push(match);
-          }
-          return acc;
-        }, [])
-      );
-    };
-    mapTags();
+    mapTags(userTags, allTags, setUserTagObjects);
   }, [user, allTags, userTags]);
 
-  // WORKING
   const selectTag = async (userID: string, tagID: string) => {
     try {
       setShowInput(false);
       setInput('');
       const updatedUser = await assignUserTag(userID, tagID);
-      setUserTags(() => [...updatedUser.tags]);
+      setUserTags([...updatedUser.tags]);
     } catch (e) {
       console.error(e);
     }
   };
 
-  // WORKING
   const createNewTag = async (input: string, userID: string) => {
     try {
       const payload = { title: input };
