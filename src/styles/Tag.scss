@@ -15,8 +15,12 @@
 
     .tag-remove {
       display: none;
+      background-color: transparent;
+      border: none;
     }
-    &:hover {
+    &:hover,
+    &:focus,
+    &:focus-within {
       .tag-remove {
         display: block;
         cursor: pointer;

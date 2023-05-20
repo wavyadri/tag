@@ -56,14 +56,14 @@ const Tags = ({ user }: TagsProps) => {
   return (
     <div
       className='tags'
-      tabIndex={1}
+      tabIndex={0}
       // onBlur={() => setShowInput(false)}
       // TODO: make sure this doesn't affect dropdown select
       // onMouseLeave={() => setShowInput(false)}
     >
       <h3 className='tags--title'>Tags</h3>
       <div className='tags--items'>
-        <ul className='tags--list' tabIndex={2}>
+        <ul className='tags--list'>
           {userTagObjects.map((tag) => (
             <Tag
               key={tag.uuid}
@@ -115,7 +115,7 @@ const Tags = ({ user }: TagsProps) => {
             <div className='add'>
               <button
                 className='add--icon'
-                tabIndex={3}
+                tabIndex={0}
                 onClick={() => {
                   setShowInput(true);
                 }}

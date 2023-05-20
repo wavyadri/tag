@@ -27,14 +27,18 @@ const TagItem = ({ user, tag, setUserTags }: TagItemProps) => {
         color: `${tag.color.secondary}`,
         borderColor: `${tag.color.secondary}`,
       }}
+      tabIndex={0}
     >
       <p>{tag.title}</p>
-      <span
+      <button
         className='tag-remove'
+        style={{
+          color: `${tag.color.secondary}`,
+        }}
         onClick={() => removeTag(user.uuid, tag.uuid)}
       >
         &#x2715;
-      </span>
+      </button>
     </li>
   );
 };
