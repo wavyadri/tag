@@ -90,7 +90,6 @@ const Tags = ({ user }: TagsProps) => {
                       <li
                         className='picker--option'
                         onClick={(e) => {
-                          // e.stopPropagation(); // TOOD:check if this is actually necessary
                           selectTag(user.uuid, tag.uuid);
                         }}
                         onKeyDown={(e) => {

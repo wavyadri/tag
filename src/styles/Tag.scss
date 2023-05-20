@@ -1,10 +1,11 @@
+@import '../styles/variables';
+
 .tags--list {
-  display: flex;
+  @include flex-center();
   flex-wrap: wrap;
-  gap: 1rem;
+
   .tag {
-    display: flex;
-    gap: 0.5rem;
+    @include flex-center(0.5rem);
     list-style: none;
     border-radius: 1rem;
     padding: 4px 12px;

@@ -7,5 +7,36 @@ $primaryDark: #1e1f45;
 $secondaryLight: #f5f1ff;
 $secondary: #5a25da;
 
-// create repeat for normal text
-// font-w 600, primary dark
+@mixin flex-center($gap: 1rem) {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+}
+
+@mixin plus-button($dimension: 1.5rem) {
+  background-color: $primaryLighter;
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: $dimension;
+  height: $dimension;
+  border-radius: 50%;
+  font-size: 1em;
+  font-weight: 900;
+  color: $primaryLight;
+  &::before {
+    content: '\FF0B';
+  }
+}
+
+@mixin input-suggestion-hover {
+  color: $primaryDark;
+  background-color: $secondaryLight;
+  cursor: pointer;
+}
+
+@mixin secondary-text {
+  color: $primary;
+  font-size: 0.7em;
+}

@@ -14,9 +14,7 @@
   }
 
   .tags--items {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    @include flex-center();
   }
 
   &:hover,
@@ -24,7 +22,7 @@
   &:focus-within {
     .add--icon {
       opacity: 1;
-      visibility: visible;
+      display: block;
       transform: translate(0, 0);
       cursor: pointer;
 
@@ -32,7 +30,7 @@
       &:focus,
       &:focus-within {
         + .add--text {
-          visibility: visible;
+          display: block;
         }
       }
     }
@@ -40,29 +38,14 @@
 }
 
 .add {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  @include flex-center(0.5rem);
 
   .add--icon {
     opacity: 0;
-    visibility: hidden;
+    display: none;
     transform: translate(0, 5px);
     transition: 0.2s ease-in;
-    background-color: $primaryLighter;
-    border: 1px solid transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    font-size: 1rem;
-    font-weight: 900;
-    color: $primaryLight;
-    &::before {
-      content: '\FF0B';
-    }
+    @include plus-button();
     &:hover {
       color: $primary;
       border: 1px solid $primaryLight;
@@ -70,14 +53,13 @@
   }
 
   .add--text {
-    visibility: hidden;
-    color: $primary;
-    font-size: 0.7em;
-    font-weight: 600;
+    @include secondary-text();
+    display: none;
   }
 }
 
 .picker--input {
+  position: relative;
   max-width: 125px;
   border: 1px solid $primary;
   padding-left: 0.5rem;
@@ -86,69 +68,47 @@
   outline: none;
   color: $primaryDark;
   font-weight: 600;
-  position: relative;
 }
 
 .picker--options {
+  position: absolute;
   min-width: 150px;
   max-width: 250px;
   max-height: 250px;
-  overflow-y: scroll;
-  list-style: none;
-  position: absolute;
   border: 1px solid $secondary;
-  background-color: #fff;
   border-radius: 0.7rem;
   padding: 5px;
   margin: 5px 0;
+  overflow-y: scroll;
+  list-style: none;
+  background-color: #fff;
+
   .picker--option {
-    color: $primary;
-    font-size: 0.7em;
-    font-weight: 600;
+    @include secondary-text();
     border-radius: 0.7rem;
     padding: 5px 10px;
     word-wrap: break-word;
     &:hover {
-      color: $primaryDark;
-      background-color: $secondaryLight;
-      cursor: pointer;
+      @include input-suggestion-hover();
     }
   }
 
   .picker {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
+    @include flex-center(0.5rem);
     padding: 5px 10px;
     border-radius: 0.7rem;
 
     .picker--icon {
-      background-color: $primaryLighter;
-      border: 1px solid transparent;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 1rem;
-      height: 1rem;
-      border-radius: 50%;
-      font-size: 0.8em;
-      font-weight: 900;
-      color: $primary;
-      &::before {
-        content: '\FF0B';
-      }
+      @include plus-button(1rem);
     }
 
     .picker--text {
-      color: $primary;
-      font-size: 0.7em;
-      font-weight: 600;
+      @include secondary-text();
     }
 
     &:hover {
-      color: $primaryDark;
-      background-color: $secondaryLight;
-      cursor: pointer;
+      @include input-suggestion-hover();
+
       .picker--text {
         color: $primaryDark;
       }
