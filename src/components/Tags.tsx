@@ -22,10 +22,6 @@ const Tags = ({ user }: TagsProps) => {
 
   // TODO: finish building out input here, then pull it out to it's own component
   // TODO: pull these out as helper functions
-  const getUserTags = async () => {
-    const result = await fetchUserTags(user.uuid);
-    setUserTags(result);
-  };
 
   const getAllTags = async () => {
     const result = await fetchTags();
@@ -36,19 +32,18 @@ const Tags = ({ user }: TagsProps) => {
     getAllTags();
   }, [user]);
 
-  const mapTags = async () => {
-    setUserTagObjects(
-      userTags.reduce((acc: TagType[], elem: string) => {
-        let match = allTags.find((tag) => tag.uuid === elem);
-        if (match) {
-          acc.push(match);
-        }
-        return acc;
-      }, [])
-    );
-  };
-
   useEffect(() => {
+    const mapTags = async () => {
+      setUserTagObjects(
+        userTags.reduce((acc: TagType[], elem: string) => {
+          let match = allTags.find((tag) => tag.uuid === elem);
+          if (match) {
+            acc.push(match);
+          }
+          return acc;
+        }, [])
+      );
+    };
     mapTags();
   }, [user, allTags, userTags]);
 
@@ -56,12 +51,11 @@ const Tags = ({ user }: TagsProps) => {
   const selectTag = async (userID: string, tagID: string) => {
     try {
       setShowInput(false);
-      await assignUserTag(userID, tagID);
+      setInput('');
+      const updatedUser = await assignUserTag(userID, tagID);
+      setUserTags(() => [...updatedUser.tags]);
     } catch (e) {
       console.error(e);
-    } finally {
-      await getUserTags();
-      setInput('');
     }
   };
 

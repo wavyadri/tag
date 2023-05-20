@@ -1,18 +1,5 @@
-import { UserTags, Tag } from '../types';
-import { fetchUserTags, fetchTags } from '../api';
-
-export const getUserTags = async (
-  userID: string,
-  setUserTags: (value: React.SetStateAction<UserTags>) => void
-) => {
-  try {
-    const result = await fetchUserTags(userID);
-    console.log(result);
-    setUserTags([...result]);
-  } catch (e) {
-    console.error(e);
-  }
-};
+import { Tag } from '../types';
+import { fetchTags } from '../api';
 
 export const getAllTags = async (
   setAllTags: (value: React.SetStateAction<Tag[]>) => void

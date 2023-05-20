@@ -2,7 +2,6 @@ import '../styles/Tag.scss';
 
 import { User, Tag, UserTags } from '../types';
 import { removeUserTag } from '../api';
-import { getUserTags } from '../utils/helper';
 
 type TagItemProps = {
   user: User;
@@ -13,8 +12,8 @@ type TagItemProps = {
 const TagItem = ({ user, tag, setUserTags }: TagItemProps) => {
   const removeTag = async (userID: string, tagID: string) => {
     try {
-      await removeUserTag(userID, tagID).then(console.log);
-      await getUserTags(userID, setUserTags);
+      const updatedUser = await removeUserTag(userID, tagID);
+      setUserTags([...updatedUser.tags]);
     } catch (e) {
       console.error(e);
     }
