@@ -1,15 +1,15 @@
 import '../styles/Tag.scss';
 
-import { User, Tag, UserTags } from '../types';
+import { User, UserTag, UserTags } from '../types';
 import { removeUserTag } from '../api';
 
-type TagItemProps = {
+type TagProps = {
   user: User;
-  tag: Tag;
+  tag: UserTag;
   setUserTags: React.Dispatch<React.SetStateAction<UserTags>>;
 };
 
-const TagItem = ({ user, tag, setUserTags }: TagItemProps) => {
+const Tag = ({ user, tag, setUserTags }: TagProps) => {
   const removeTag = async (userID: string, tagID: string) => {
     try {
       const updatedUser = await removeUserTag(userID, tagID);
@@ -43,4 +43,4 @@ const TagItem = ({ user, tag, setUserTags }: TagItemProps) => {
   );
 };
 
-export default TagItem;
+export default Tag;

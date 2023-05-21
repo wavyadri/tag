@@ -1,8 +1,8 @@
-import { Tag, UserTags } from '../types';
+import { UserTag, UserTags } from '../types';
 import { fetchTags } from '../api';
 
 export const getAllTags = async (
-  setAllTags: (value: React.SetStateAction<Tag[]>) => void
+  setAllTags: (value: React.SetStateAction<UserTag[]>) => void
 ) => {
   try {
     const result = await fetchTags();
@@ -14,11 +14,11 @@ export const getAllTags = async (
 
 export const mapTags = async (
   userTags: UserTags,
-  allTags: Tag[],
-  setUserTagObj: (value: React.SetStateAction<Tag[]>) => void
+  allTags: UserTag[],
+  setUserTagObj: (value: React.SetStateAction<UserTag[]>) => void
 ) => {
   setUserTagObj(
-    userTags.reduce((acc: Tag[], elem: string) => {
+    userTags.reduce((acc: UserTag[], elem: string) => {
       let match = allTags.find((tag) => tag.uuid === elem);
       if (match) {
         acc.push(match);

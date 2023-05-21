@@ -9,7 +9,7 @@ type TagColors = {
   secondary: string;
 };
 
-export type Tag = {
+export type UserTag = {
   uuid: string;
   title: string;
   color: TagColors;

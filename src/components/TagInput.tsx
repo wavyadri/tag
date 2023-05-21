@@ -1,16 +1,16 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Tag } from '../types';
+import { UserTag } from '../types';
 import { assignUserTag, createTag, fetchUserTags } from '../api';
 
 type TagInputProps = {
-  allTags: Tag[];
+  allTags: UserTag[];
   userID: string;
   setShowInput: Dispatch<SetStateAction<boolean>>;
 };
 
 const TagInput = ({ allTags, userID, setShowInput }: TagInputProps) => {
   const [input, setInput] = useState<string>('');
-  const [selectedInput, setSelectedInput] = useState<Tag>();
+  const [selectedInput, setSelectedInput] = useState<UserTag>();
   const [showSuggestions, setShowSuggestions] = useState<boolean>(true);
 
   const createNewTag = () => {

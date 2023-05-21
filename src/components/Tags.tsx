@@ -4,8 +4,8 @@ import Tag from './Tag';
 import { useState, useEffect } from 'react';
 
 import { User } from '../types';
-import { fetchTags, fetchUserTags, assignUserTag, createTag } from '../api';
-import { Tag as TagType, UserTags } from '../types';
+import { assignUserTag, createTag } from '../api';
+import { UserTag, UserTags } from '../types';
 import { getAllTags, mapTags } from '../utils/helper';
 
 type TagsProps = {
@@ -13,9 +13,9 @@ type TagsProps = {
 };
 
 const Tags = ({ user }: TagsProps) => {
-  const [allTags, setAllTags] = useState<TagType[]>([]);
+  const [allTags, setAllTags] = useState<UserTag[]>([]);
   const [userTags, setUserTags] = useState<UserTags>(user.tags);
-  const [userTagObjects, setUserTagObjects] = useState<TagType[]>([]);
+  const [userTagObjects, setUserTagObjects] = useState<UserTag[]>([]);
   const [showInput, setShowInput] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
 
@@ -72,10 +72,14 @@ const Tags = ({ user }: TagsProps) => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
-                  !showSuggestions && e.key === 'Tab' && setShowInput(false);
+                  if (!showSuggestions && e.key === 'Tab') {
+                    setShowInput(false);
+                  }
                 }}
                 onBlur={(e) => {
-                  !showSuggestions && setShowInput(false);
+                  if (!showSuggestions) {
+                    setShowInput(false);
+                  }
                 }}
               />
               {showSuggestions && (
@@ -93,7 +97,9 @@ const Tags = ({ user }: TagsProps) => {
                           selectTag(user.uuid, tag.uuid);
                         }}
                         onKeyDown={(e) => {
-                          e.key === 'Enter' && selectTag(user.uuid, tag.uuid);
+                          if (e.key === 'Enter') {
+                            selectTag(user.uuid, tag.uuid);
+                          }
                         }}
                         key={tag.uuid}
                         tabIndex={0}
@@ -105,13 +111,16 @@ const Tags = ({ user }: TagsProps) => {
                     className='picker'
                     onClick={() => createNewTag(input, user.uuid)}
                     onKeyDown={(e) => {
-                      e.key === 'Enter' && createNewTag(input, user.uuid);
+                      if (e.key === 'Enter') {
+                        createNewTag(input, user.uuid);
+                      }
                     }}
                     tabIndex={0}
                     onBlur={() => {
                       setInput('');
                       setShowInput(false);
                     }}
+                    role='button'
                   >
                     <span className='picker--icon'></span>
                     <span className='picker--text'>CREATE TAG</span>
