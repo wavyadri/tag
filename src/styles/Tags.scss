@@ -22,7 +22,6 @@
   &:focus-within {
     .add--icon {
       opacity: 1;
-      display: block;
       transform: translate(0, 0);
       cursor: pointer;
 
@@ -41,11 +40,10 @@
   @include flex-center(0.5rem);
 
   .add--icon {
+    @include plus-button();
     opacity: 0;
-    display: none;
     transform: translate(0, 5px);
     transition: 0.2s ease-in;
-    @include plus-button();
     &:hover {
       color: $primary;
       border: 1px solid $primaryLight;
