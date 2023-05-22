@@ -14,21 +14,25 @@
     border: 1px solid;
     text-transform: capitalize;
     overflow: hidden;
+    word-break: break-all;
 
     .tag-remove {
-      display: block;
       background-color: transparent;
       overflow: hidden;
       border: none;
       max-width: 0px;
       transition: 0.3s all;
+      &::before {
+        content: '\2715';
+      }
     }
     &:hover,
     &:focus,
     &:focus-within {
       .tag-remove {
         max-width: 50px;
-        margin-left: 0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.3rem;
         cursor: pointer;
       }
     }
