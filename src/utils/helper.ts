@@ -1,8 +1,9 @@
 import { UserTag, UserTags } from '../types';
 import { fetchTags } from '../api';
+import { SetStateAction } from 'react';
 
 export const getAllTags = async (
-  setAllTags: (value: React.SetStateAction<UserTag[]>) => void
+  setAllTags: (value: SetStateAction<UserTag[]>) => void
 ) => {
   try {
     const result = await fetchTags();
@@ -15,7 +16,7 @@ export const getAllTags = async (
 export const mapTags = async (
   userTags: UserTags,
   allTags: UserTag[],
-  setUserTagObj: (value: React.SetStateAction<UserTag[]>) => void
+  setUserTagObj: (value: SetStateAction<UserTag[]>) => void
 ) => {
   setUserTagObj(
     userTags.reduce((acc: UserTag[], elem: string) => {
@@ -26,4 +27,12 @@ export const mapTags = async (
       return acc;
     }, [])
   );
+};
+
+export const clear = (
+  setShow: (value: SetStateAction<boolean>) => void,
+  setValue: (value: SetStateAction<string>) => void
+) => {
+  setShow(false);
+  setValue('');
 };

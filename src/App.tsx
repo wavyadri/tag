@@ -9,7 +9,7 @@ const params = Object.freeze({
 
 const App = () => {
   return (
-    <div className='profile'>
+    <div className='wrapper'>
       <UserProfile uuid={params.uuid} />
     </div>
   );

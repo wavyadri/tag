@@ -1,26 +1,10 @@
 @import '../styles/variables';
 
 .tags {
-  width: 50vw;
-  min-height: 100px;
-  padding: 1.5rem;
-  border-radius: 5px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
-  .tags--title {
-    font-size: 1em;
-    margin-bottom: 1rem;
-    color: $primaryDark;
-  }
-
-  .tags--content {
-    @include flex-center();
-  }
-
   &:hover,
   &:focus,
   &:focus-within {
-    .add--icon {
+    .add__icon {
       opacity: 1;
       transform: translate(0, 0);
       cursor: pointer;
@@ -28,7 +12,7 @@
       &:hover,
       &:focus,
       &:focus-within {
-        + .add--text {
+        + .add__text {
           display: block;
         }
       }
@@ -39,7 +23,7 @@
 .add {
   @include flex-center(0.5rem);
 
-  .add--icon {
+  .add__icon {
     @include plus-button();
     opacity: 0;
     transform: translate(0, 5px);
@@ -50,13 +34,13 @@
     }
   }
 
-  .add--text {
+  .add__text {
     @include secondary-text();
     display: none;
   }
 }
 
-.picker--input {
+.picker__input {
   position: relative;
   max-width: 125px;
   border: 1px solid $primary;
@@ -68,7 +52,7 @@
   font-weight: 600;
 }
 
-.picker--options {
+.picker__options {
   position: absolute;
   min-width: 150px;
   max-width: 250px;
@@ -81,7 +65,7 @@
   list-style: none;
   background-color: #fff;
 
-  .picker--option {
+  .picker__option {
     @include secondary-text();
     border-radius: 0.7rem;
     padding: 5px 10px;
@@ -96,21 +80,21 @@
     padding: 5px 10px;
     border-radius: 0.7rem;
 
-    .picker--icon {
+    .picker__icon {
       @include plus-button(1rem);
     }
 
-    .picker--text {
+    .picker__text {
       @include secondary-text();
     }
 
     &:hover {
       @include input-suggestion-hover();
 
-      .picker--text {
+      .picker__text {
         color: $primaryDark;
       }
-      .picker--icon {
+      .picker__icon {
         background-color: $primaryDark;
         color: $primaryLight;
       }

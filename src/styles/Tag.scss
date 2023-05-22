@@ -1,6 +1,6 @@
 @import '../styles/variables';
 
-.tags--list {
+.tags__list {
   @include flex-center();
   flex-wrap: wrap;
 

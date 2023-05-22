@@ -1,4 +1,6 @@
+import '../styles/UserProfile.scss';
 import Tags from './Tags';
+import UserProfileSection from './UserProfileSection';
 
 import { useState, useEffect } from 'react';
 
@@ -22,7 +24,13 @@ const UserProfile = ({ uuid }: UserProfileProps) => {
 
   if (!user) return null;
 
-  return <Tags user={user} />;
+  return (
+    <div className='profile'>
+      <UserProfileSection title='tags'>
+        <Tags user={user} />
+      </UserProfileSection>
+    </div>
+  );
 };
 
 export default UserProfile;

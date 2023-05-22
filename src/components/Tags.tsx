@@ -1,12 +1,13 @@
 import '../styles/Tags.scss';
 import Tag from './Tag';
+import TagInput from './TagInput';
 
 import { useState, useEffect } from 'react';
 
 import { User } from '../types';
-import { assignUserTag, createTag } from '../api';
 import { UserTag, UserTags } from '../types';
 import { getAllTags, mapTags } from '../utils/helper';
+import { removeUserTag } from '../api';
 
 type TagsProps = {
   user: User;
@@ -17,9 +18,6 @@ const Tags = ({ user }: TagsProps) => {
   const [userTags, setUserTags] = useState<UserTags>(user.tags);
   const [userTagObjects, setUserTagObjects] = useState<UserTag[]>([]);
   const [showInput, setShowInput] = useState<boolean>(false);
-  const [input, setInput] = useState<string>('');
-
-  const showSuggestions = input.length > 0;
 
   useEffect(() => {
     getAllTags(setAllTags);
@@ -29,119 +27,42 @@ const Tags = ({ user }: TagsProps) => {
     mapTags(userTags, allTags, setUserTagObjects);
   }, [user, allTags, userTags]);
 
-  const selectTag = async (userID: string, tagID: string) => {
+  const removeTag = async (userID: string, tagID: string) => {
     try {
-      setShowInput(false);
-      setInput('');
-      const updatedUser = await assignUserTag(userID, tagID);
+      const updatedUser = await removeUserTag(userID, tagID);
       setUserTags([...updatedUser.tags]);
     } catch (e) {
       console.error(e);
     }
   };
 
-  const createNewTag = async (input: string, userID: string) => {
-    try {
-      const payload = { title: input };
-      const result = await createTag(payload);
-      await selectTag(userID, result.uuid);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   return (
-    <div className='tags' tabIndex={0}>
-      <h3 className='tags--title'>Tags</h3>
-      <div className='tags--items'>
-        <ul className='tags--list'>
-          {userTagObjects.map((tag) => (
-            <Tag
-              key={tag.uuid}
-              user={user}
-              tag={tag}
-              setUserTags={setUserTags}
+    <div className='tags'>
+      <ul className='tags__list'>
+        {userTagObjects.map((tag) => (
+          <Tag key={tag.uuid} user={user} tag={tag} removeTag={removeTag} />
+        ))}
+        {showInput ? (
+          <TagInput
+            user={user}
+            allTags={allTags}
+            userTags={userTags}
+            setShowInput={setShowInput}
+            setUserTags={setUserTags}
+          />
+        ) : (
+          <div className='add'>
+            <button
+              tabIndex={0}
+              className='add__icon'
+              onClick={() => {
+                setShowInput(true);
+              }}
             />
-          ))}
-          {showInput ? (
-            <div>
-              <input
-                type='text'
-                autoFocus
-                className='picker--input'
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (!showSuggestions && e.key === 'Tab') {
-                    setShowInput(false);
-                  }
-                }}
-                onBlur={(e) => {
-                  if (!showSuggestions) {
-                    setShowInput(false);
-                  }
-                }}
-              />
-              {showSuggestions && (
-                <ul className='picker--options'>
-                  {allTags
-                    .filter(
-                      (tag) =>
-                        !userTags.includes(tag.uuid) &&
-                        tag.title.toLowerCase().includes(input.toLowerCase())
-                    )
-                    .map((tag) => (
-                      <li
-                        className='picker--option'
-                        onClick={(e) => {
-                          selectTag(user.uuid, tag.uuid);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            selectTag(user.uuid, tag.uuid);
-                          }
-                        }}
-                        key={tag.uuid}
-                        tabIndex={0}
-                      >
-                        {tag.title}
-                      </li>
-                    ))}
-                  <li
-                    className='picker'
-                    onClick={() => createNewTag(input, user.uuid)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        createNewTag(input, user.uuid);
-                      }
-                    }}
-                    tabIndex={0}
-                    onBlur={() => {
-                      setInput('');
-                      setShowInput(false);
-                    }}
-                    role='button'
-                  >
-                    <span className='picker--icon'></span>
-                    <span className='picker--text'>CREATE TAG</span>
-                  </li>
-                </ul>
-              )}
-            </div>
-          ) : (
-            <div className='add'>
-              <button
-                className='add--icon'
-                tabIndex={0}
-                onClick={() => {
-                  setShowInput(true);
-                }}
-              ></button>
-              <span className='add--text'>ADD</span>
-            </div>
-          )}
-        </ul>
-      </div>
+            <span className='add__text'>ADD</span>
+          </div>
+        )}
+      </ul>
     </div>
   );
 };
