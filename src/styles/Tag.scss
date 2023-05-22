@@ -21,7 +21,8 @@
       overflow: hidden;
       border: none;
       max-width: 0px;
-      transition: 0.3s all;
+      min-width: 0px;
+      transition: min-width 0.3s;
       &::before {
         content: '\2715';
       }
@@ -30,8 +31,8 @@
     &:focus,
     &:focus-within {
       .tag-remove {
-        max-width: 100px;
-        padding: 0 0.5rem;
+        min-width: 20px;
+        margin-left: 0.2rem;
         cursor: pointer;
       }
     }
