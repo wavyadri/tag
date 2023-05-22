@@ -30,9 +30,8 @@
     &:focus,
     &:focus-within {
       .tag-remove {
-        max-width: 50px;
-        padding-left: 0.5rem;
-        padding-right: 0.3rem;
+        max-width: 100px;
+        padding: 0 0.5rem;
         cursor: pointer;
       }
     }
