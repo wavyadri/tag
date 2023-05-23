@@ -6,7 +6,6 @@ type TagInputProps = {
   userTags: UserTags;
   selectTag: (tagID: string) => Promise<void>;
   createTag: (input: string) => Promise<void>;
-  closeInput: () => void;
 };
 
 const TagInput = ({
@@ -14,78 +13,103 @@ const TagInput = ({
   userTags,
   selectTag,
   createTag,
-  closeInput,
 }: TagInputProps) => {
   const [input, setInput] = useState<string>('');
+  const [showInput, setShowInput] = useState<boolean>(false);
   const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const showSuggestions = input.length > 0;
 
+  const clearInput = () => {
+    setShowInput(false);
+    setInput('');
+  };
+
   return (
-    <div>
-      <input
-        className='picker__input'
-        ref={inputRef}
-        type='text'
-        autoFocus
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (!showSuggestions && e.key === 'Tab') {
-            closeInput();
-          }
-        }}
-        onBlur={() => {
-          if (!showSuggestions) {
-            closeInput();
-          }
-        }}
-      />
-      {showSuggestions && (
-        <ul className='picker__options'>
-          {allTags
-            .filter(
-              (tag) =>
-                !userTags.includes(tag.uuid) &&
-                tag.title.toLowerCase().includes(input.toLowerCase())
-            )
-            .map((tag) => (
+    <>
+      {showInput ? (
+        <div>
+          <input
+            className='picker__input'
+            ref={inputRef}
+            type='text'
+            autoFocus
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (!showSuggestions && e.key === 'Tab') {
+                clearInput();
+              }
+            }}
+            onBlur={() => {
+              if (!showSuggestions) {
+                clearInput();
+              }
+            }}
+          />
+          {showSuggestions && (
+            <ul className='picker__options'>
+              {allTags
+                .filter(
+                  (tag) =>
+                    !userTags.includes(tag.uuid) &&
+                    tag.title.toLowerCase().includes(input.toLowerCase())
+                )
+                .map((tag) => (
+                  <li
+                    className='picker__option'
+                    onClick={() => {
+                      selectTag(tag.uuid);
+                      clearInput();
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        selectTag(tag.uuid);
+                        clearInput();
+                      }
+                    }}
+                    key={tag.uuid}
+                    tabIndex={0}
+                  >
+                    {tag.title}
+                  </li>
+                ))}
               <li
-                className='picker__option'
+                className='picker'
                 onClick={() => {
-                  selectTag(tag.uuid);
+                  createTag(input);
+                  clearInput();
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    selectTag(tag.uuid);
+                    createTag(input);
+                    clearInput();
                   }
                 }}
-                key={tag.uuid}
                 tabIndex={0}
+                onBlur={() => {
+                  clearInput();
+                }}
+                role='button'
               >
-                {tag.title}
+                <span className='picker__icon'></span>
+                <span className='picker__text'>CREATE TAG</span>
               </li>
-            ))}
-          <li
-            className='picker'
-            onClick={() => createTag(input)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                createTag(input);
-              }
-            }}
+            </ul>
+          )}
+        </div>
+      ) : (
+        <div className='add'>
+          <button
             tabIndex={0}
-            onBlur={() => {
-              setInput('');
-              closeInput();
+            className='add__icon'
+            onClick={() => {
+              setShowInput(true);
             }}
-            role='button'
-          >
-            <span className='picker__icon'></span>
-            <span className='picker__text'>CREATE TAG</span>
-          </li>
-        </ul>
+          />
+          <span className='add__text'>ADD</span>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
