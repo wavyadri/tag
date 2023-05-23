@@ -1,4 +1,4 @@
-import './TagInput.scss';
+import './styles.scss';
 
 import { useState, useEffect, useRef } from 'react';
 import { UserTag, UserTags } from '../../../../types';

@@ -1,4 +1,4 @@
-import './styles/App.scss';
+import './styles.scss';
 import UserProfile from './components/UserProfile/UserProfile';
 
 // Let's pretend we're getting this from the route

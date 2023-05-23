@@ -1,6 +1,6 @@
-import './Tags.scss';
-import Tag from './Tag/Tag';
-import TagInput from './TagInput/TagInput';
+import './styles.scss';
+import Tag from './Tag';
+import TagInput from './TagInput';
 
 import { useState, useEffect } from 'react';
 

@@ -1,4 +1,4 @@
-import './UserProfileSection.scss';
+import './styles.scss';
 
 import { ReactNode } from 'react';
 

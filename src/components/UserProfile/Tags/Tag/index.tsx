@@ -1,4 +1,4 @@
-import './Tag.scss';
+import './styles.scss';
 
 import { UserTag } from '../../../../types';
 
