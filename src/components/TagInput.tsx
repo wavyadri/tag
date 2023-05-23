@@ -1,4 +1,6 @@
-import { useState, useRef, MutableRefObject } from 'react';
+import '../styles/TagInput.scss';
+
+import { useState, useEffect, useRef } from 'react';
 import { UserTag, UserTags } from '../types';
 
 type TagInputProps = {
@@ -16,8 +18,27 @@ const TagInput = ({
 }: TagInputProps) => {
   const [input, setInput] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
-  const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const inputRef = useRef(null);
   const showSuggestions = input.length > 0;
+
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    console.log(inputRef);
+    // function handleClickOutside(event: any) {
+    //   console.log(inputRef.current, event.target);
+    //   if (inputRef.current && !inputRef.current.contains(event.target)) {
+    //     alert('You clicked outside of me!');
+    //   }
+    // }
+    // // Bind the event listener
+    // document.addEventListener('mousedown', handleClickOutside);
+    // return () => {
+    //   // Unbind the event listener on clean up
+    //   document.removeEventListener('mousedown', handleClickOutside);
+    // };
+  }, [inputRef]);
 
   const clearInput = () => {
     setShowInput(false);
@@ -30,7 +51,6 @@ const TagInput = ({
         <div>
           <input
             className='picker__input'
-            ref={inputRef}
             type='text'
             autoFocus
             value={input}
@@ -56,6 +76,8 @@ const TagInput = ({
                 )
                 .map((tag) => (
                   <li
+                    key={tag.uuid}
+                    tabIndex={0}
                     className='picker__option'
                     onClick={() => {
                       selectTag(tag.uuid);
@@ -67,14 +89,14 @@ const TagInput = ({
                         clearInput();
                       }
                     }}
-                    key={tag.uuid}
-                    tabIndex={0}
                   >
                     {tag.title}
                   </li>
                 ))}
               <li
+                tabIndex={0}
                 className='picker'
+                role='button'
                 onClick={() => {
                   createTag(input);
                   clearInput();
@@ -85,11 +107,9 @@ const TagInput = ({
                     clearInput();
                   }
                 }}
-                tabIndex={0}
                 onBlur={() => {
                   clearInput();
                 }}
-                role='button'
               >
                 <span className='picker__icon'></span>
                 <span className='picker__text'>CREATE TAG</span>

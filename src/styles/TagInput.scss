@@ -1,0 +1,83 @@
+@import '../styles/variables';
+
+.picker__input {
+  position: relative;
+  max-width: 125px;
+  border: 1px solid $primary;
+  padding-left: 0.5rem;
+  border-radius: 1rem;
+  padding: 4px 12px;
+  outline: none;
+  color: $primaryDark;
+  font-weight: 600;
+}
+
+.picker__options {
+  position: absolute;
+  min-width: 150px;
+  max-width: 250px;
+  max-height: 250px;
+  border: 1px solid $secondary;
+  border-radius: 0.7rem;
+  padding: 5px;
+  margin: 5px 0;
+  overflow-y: scroll;
+  list-style: none;
+  background-color: #fff;
+
+  .picker__option {
+    @include secondary-text();
+    border-radius: 0.7rem;
+    padding: 5px 10px;
+    word-wrap: break-word;
+    &:hover {
+      @include input-suggestion-hover();
+    }
+  }
+
+  .picker {
+    @include flex-center(0.5rem);
+    padding: 5px 10px;
+    border-radius: 0.7rem;
+
+    .picker__icon {
+      @include plus-button(1rem);
+    }
+
+    .picker__text {
+      @include secondary-text();
+    }
+
+    &:hover {
+      @include input-suggestion-hover();
+
+      .picker__text {
+        color: $primaryDark;
+      }
+      .picker__icon {
+        background-color: $primaryDark;
+        color: $primaryLight;
+      }
+    }
+  }
+}
+
+.add {
+  @include flex-center(0.5rem);
+
+  .add__icon {
+    @include plus-button();
+    opacity: 0;
+    transform: translate(0, 5px);
+    transition: 0.2s ease-in;
+    &:hover {
+      color: $primary;
+      border: 1px solid $primaryLight;
+    }
+  }
+
+  .add__text {
+    @include secondary-text();
+    display: none;
+  }
+}

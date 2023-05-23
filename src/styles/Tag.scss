@@ -1,40 +1,35 @@
 @import '../styles/variables';
 
-.tags__list {
-  @include flex-center();
-  flex-wrap: wrap;
+.tag {
+  @include flex-center(0rem);
+  list-style: none;
+  border-radius: 1rem;
+  padding: 4px 12px;
+  font-size: 0.9em;
+  font-weight: 600;
+  border: 1px solid;
+  text-transform: capitalize;
+  overflow: hidden;
+  word-break: break-all;
 
-  .tag {
-    @include flex-center(0rem);
-    list-style: none;
-    border-radius: 1rem;
-    padding: 4px 12px;
-    font-size: 0.9em;
-    font-weight: 600;
-    border: 1px solid;
-    text-transform: capitalize;
+  .tag-remove {
+    background-color: transparent;
     overflow: hidden;
-    word-break: break-all;
-
-    .tag-remove {
-      background-color: transparent;
-      overflow: hidden;
-      border: none;
-      max-width: 0px;
-      min-width: 0px;
-      transition: min-width 0.3s;
-      &::before {
-        content: '\2715';
-      }
+    border: none;
+    max-width: 0px;
+    min-width: 0px;
+    transition: min-width 0.3s;
+    &::before {
+      content: '\2715';
     }
-    &:hover,
-    &:focus,
-    &:focus-within {
-      .tag-remove {
-        min-width: 20px;
-        margin-left: 0.2rem;
-        cursor: pointer;
-      }
+  }
+  &:hover,
+  &:focus,
+  &:focus-within {
+    .tag-remove {
+      min-width: 20px;
+      margin-left: 0.2rem;
+      cursor: pointer;
     }
   }
 }

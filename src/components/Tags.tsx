@@ -6,8 +6,7 @@ import { useState, useEffect } from 'react';
 
 import { User } from '../types';
 import { UserTag, UserTags } from '../types';
-import { getAllTags, mapTags } from '../utils/helper';
-import { removeUserTag, assignUserTag, createTag } from '../api';
+import { removeUserTag, assignUserTag, createTag, fetchTags } from '../api';
 
 type TagsProps = {
   user: User;
@@ -19,11 +18,30 @@ const Tags = ({ user }: TagsProps) => {
   const [userTagObjects, setUserTagObjects] = useState<UserTag[]>([]);
 
   useEffect(() => {
-    getAllTags(setAllTags);
+    const getAllTags = async () => {
+      try {
+        const result = await fetchTags();
+        setAllTags([...result]);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    getAllTags();
   }, [user, userTags]);
 
   useEffect(() => {
-    mapTags(userTags, allTags, setUserTagObjects);
+    const mapTags = async () => {
+      setUserTagObjects(
+        userTags.reduce((acc: UserTag[], elem: string) => {
+          let match = allTags.find((tag) => tag.uuid === elem);
+          if (match) {
+            acc.push(match);
+          }
+          return acc;
+        }, [])
+      );
+    };
+    mapTags();
   }, [user, allTags, userTags]);
 
   const removeTag = async (tagID: string) => {
