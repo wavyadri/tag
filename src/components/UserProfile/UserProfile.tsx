@@ -1,11 +1,11 @@
-import '../styles/UserProfile.scss';
-import Tags from './Tags';
+import './UserProfile.scss';
+import Tags from './Tags/Tags';
 import UserProfileSection from './UserProfileSection';
 
 import { useState, useEffect } from 'react';
 
-import { fetchUser } from '../api';
-import { User } from '../types';
+import { fetchUser } from '../../api';
+import { User } from '../../types';
 
 type UserProfileProps = {
   uuid: string;

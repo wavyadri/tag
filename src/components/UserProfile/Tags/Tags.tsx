@@ -1,12 +1,17 @@
-import '../styles/Tags.scss';
-import Tag from './Tag';
-import TagInput from './TagInput';
+import './Tags.scss';
+import Tag from './Tag/Tag';
+import TagInput from './TagInput/TagInput';
 
 import { useState, useEffect } from 'react';
 
-import { User } from '../types';
-import { UserTag, UserTags } from '../types';
-import { removeUserTag, assignUserTag, createTag, fetchTags } from '../api';
+import { User } from '../../../types';
+import { UserTag, UserTags } from '../../../types';
+import {
+  removeUserTag,
+  assignUserTag,
+  createTag,
+  fetchTags,
+} from '../../../api';
 
 type TagsProps = {
   user: User;
