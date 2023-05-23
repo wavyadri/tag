@@ -1,52 +1,24 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useRef,
-  MutableRefObject,
-} from 'react';
-import { UserTag, User, UserTags } from '../types';
-import { assignUserTag, createTag } from '../api';
+import { useState, useRef, MutableRefObject } from 'react';
+import { UserTag, UserTags } from '../types';
 
 type TagInputProps = {
   allTags: UserTag[];
-  user: User;
-  setShowInput: Dispatch<SetStateAction<boolean>>;
-  setUserTags: Dispatch<SetStateAction<UserTags>>;
   userTags: UserTags;
+  selectTag: (tagID: string) => Promise<void>;
+  createTag: (input: string) => Promise<void>;
+  closeInput: () => void;
 };
 
 const TagInput = ({
-  setUserTags,
-  setShowInput,
-  user,
   allTags,
   userTags,
+  selectTag,
+  createTag,
+  closeInput,
 }: TagInputProps) => {
   const [input, setInput] = useState<string>('');
   const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const showSuggestions = input.length > 0;
-
-  const selectTag = async (userID: string, tagID: string) => {
-    try {
-      setShowInput(false);
-      setInput('');
-      const updatedUser = await assignUserTag(userID, tagID);
-      setUserTags([...updatedUser.tags]);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const createNewTag = async (input: string, userID: string) => {
-    try {
-      const payload = { title: input };
-      const result = await createTag(payload);
-      await selectTag(userID, result.uuid);
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   return (
     <div>
@@ -59,12 +31,12 @@ const TagInput = ({
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => {
           if (!showSuggestions && e.key === 'Tab') {
-            setShowInput(false);
+            closeInput();
           }
         }}
         onBlur={() => {
           if (!showSuggestions) {
-            setShowInput(false);
+            closeInput();
           }
         }}
       />
@@ -79,12 +51,12 @@ const TagInput = ({
             .map((tag) => (
               <li
                 className='picker__option'
-                onClick={(e) => {
-                  selectTag(user.uuid, tag.uuid);
+                onClick={() => {
+                  selectTag(tag.uuid);
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    selectTag(user.uuid, tag.uuid);
+                    selectTag(tag.uuid);
                   }
                 }}
                 key={tag.uuid}
@@ -95,16 +67,16 @@ const TagInput = ({
             ))}
           <li
             className='picker'
-            onClick={() => createNewTag(input, user.uuid)}
+            onClick={() => createTag(input)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                createNewTag(input, user.uuid);
+                createTag(input);
               }
             }}
             tabIndex={0}
             onBlur={() => {
               setInput('');
-              setShowInput(false);
+              closeInput();
             }}
             role='button'
           >

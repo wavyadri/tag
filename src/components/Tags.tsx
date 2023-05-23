@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { User } from '../types';
 import { UserTag, UserTags } from '../types';
 import { getAllTags, mapTags } from '../utils/helper';
-import { removeUserTag } from '../api';
+import { removeUserTag, assignUserTag, createTag } from '../api';
 
 type TagsProps = {
   user: User;
@@ -27,10 +27,31 @@ const Tags = ({ user }: TagsProps) => {
     mapTags(userTags, allTags, setUserTagObjects);
   }, [user, allTags, userTags]);
 
-  const removeTag = async (userID: string, tagID: string) => {
+  const removeTag = async (tagID: string) => {
     try {
-      const updatedUser = await removeUserTag(userID, tagID);
+      const updatedUser = await removeUserTag(user.uuid, tagID);
       setUserTags([...updatedUser.tags]);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const selectTag = async (tagID: string) => {
+    try {
+      setShowInput(false);
+      // setInput('');
+      const updatedUser = await assignUserTag(user.uuid, tagID);
+      setUserTags([...updatedUser.tags]);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const createNewTag = async (input: string) => {
+    try {
+      const payload = { title: input };
+      const result = await createTag(payload);
+      await selectTag(result.uuid);
     } catch (e) {
       console.error(e);
     }
@@ -40,15 +61,15 @@ const Tags = ({ user }: TagsProps) => {
     <div className='tags'>
       <ul className='tags__list'>
         {userTagObjects.map((tag) => (
-          <Tag key={tag.uuid} user={user} tag={tag} removeTag={removeTag} />
+          <Tag key={tag.uuid} tag={tag} removeTag={removeTag} />
         ))}
         {showInput ? (
           <TagInput
-            user={user}
             allTags={allTags}
             userTags={userTags}
-            setShowInput={setShowInput}
-            setUserTags={setUserTags}
+            closeInput={() => setShowInput(false)}
+            selectTag={selectTag}
+            createTag={createNewTag}
           />
         ) : (
           <div className='add'>

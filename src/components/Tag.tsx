@@ -1,14 +1,13 @@
 import '../styles/Tag.scss';
 
-import { User, UserTag } from '../types';
+import { UserTag } from '../types';
 
 type TagProps = {
-  user: User;
   tag: UserTag;
-  removeTag: (userID: string, tagID: string) => Promise<void>;
+  removeTag: (tagID: string) => Promise<void>;
 };
 
-const Tag = ({ user, tag, removeTag }: TagProps) => {
+const Tag = ({ tag, removeTag }: TagProps) => {
   return (
     <li
       tabIndex={0}
@@ -25,7 +24,7 @@ const Tag = ({ user, tag, removeTag }: TagProps) => {
         style={{
           color: `${tag.color.secondary}`,
         }}
-        onClick={() => removeTag(user.uuid, tag.uuid)}
+        onClick={() => removeTag(tag.uuid)}
       />
     </li>
   );
