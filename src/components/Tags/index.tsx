@@ -4,14 +4,9 @@ import TagInput from './TagInput';
 
 import { useState, useEffect } from 'react';
 
-import { User } from '../../../types';
-import { UserTag, UserTags } from '../../../types';
-import {
-  removeUserTag,
-  assignUserTag,
-  createTag,
-  fetchTags,
-} from '../../../api';
+import { User } from '../../types';
+import { UserTag, UserTags } from '../../types';
+import { removeUserTag, assignUserTag, createTag, fetchTags } from '../../api';
 
 type TagsProps = {
   user: User;

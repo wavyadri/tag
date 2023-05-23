@@ -1,7 +1,7 @@
 import './styles.scss';
 
 import { useState, useEffect, useRef } from 'react';
-import { UserTag, UserTags } from '../../../../types';
+import { UserTag, UserTags } from '../../../types';
 
 type TagInputProps = {
   allTags: UserTag[];

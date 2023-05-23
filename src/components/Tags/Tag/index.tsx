@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import { UserTag } from '../../../../types';
+import { UserTag } from '../../../types';
 
 type TagProps = {
   tag: UserTag;

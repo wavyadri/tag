@@ -4,8 +4,8 @@ import UserProfileSection from './UserProfileSection';
 
 import { useState, useEffect } from 'react';
 
-import { fetchUser } from '../../../api';
-import { User } from '../../../types';
+import { fetchUser } from '../../api';
+import { User } from '../../types';
 
 type UserProfileProps = {
   uuid: string;

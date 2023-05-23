@@ -1,5 +1,5 @@
 import './styles.scss';
-import UserProfile from './components/UserProfile/UserProfile';
+import UserProfile from './components/UserProfile';
 
 // Let's pretend we're getting this from the route
 // e.g. `get /users/:uuid`
