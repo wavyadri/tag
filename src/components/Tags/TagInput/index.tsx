@@ -34,7 +34,7 @@ const TagInput = ({
             type='text'
             autoFocus
             value={input}
-            onChange={(e) => setInput(e.target.value.trim())}
+            onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
               if (!showSuggestions && e.key === 'Tab') {
                 clearInput();
