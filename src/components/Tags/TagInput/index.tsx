@@ -1,6 +1,6 @@
 import './styles.scss';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { UserTag, UserTags } from '../../../types';
 
 type TagInputProps = {
@@ -18,27 +18,7 @@ const TagInput = ({
 }: TagInputProps) => {
   const [input, setInput] = useState<string>('');
   const [showInput, setShowInput] = useState<boolean>(false);
-  const inputRef = useRef(null);
   const showSuggestions = input.length > 0;
-
-  useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    console.log(inputRef);
-    // function handleClickOutside(event: any) {
-    //   console.log(inputRef.current, event.target);
-    //   if (inputRef.current && !inputRef.current.contains(event.target)) {
-    //     alert('You clicked outside of me!');
-    //   }
-    // }
-    // // Bind the event listener
-    // document.addEventListener('mousedown', handleClickOutside);
-    // return () => {
-    //   // Unbind the event listener on clean up
-    //   document.removeEventListener('mousedown', handleClickOutside);
-    // };
-  }, [inputRef]);
 
   const clearInput = () => {
     setShowInput(false);
@@ -54,7 +34,7 @@ const TagInput = ({
             type='text'
             autoFocus
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value.trim())}
             onKeyDown={(e) => {
               if (!showSuggestions && e.key === 'Tab') {
                 clearInput();

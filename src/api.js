@@ -1,15 +1,3 @@
-/**
- * This is a simulation of the Raisely API, it has all of the methods you'll need
- * to fetch tags, create a new tag, assign a tag, remove a tag and fetch a user's
- * tags
- *
- * You can treat this as if it is a remote API, it's not a replacement for state
- * management in your application.
- *
- * You don't need to touch this code, it's missing error handling and validation
- * and is a simpification of how the actual API would work.
- */
-
 // import uuid from 'uuid/dist/v4';
 import { v4 as uuid } from 'uuid';
 
