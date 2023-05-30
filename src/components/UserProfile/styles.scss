@@ -6,19 +6,8 @@
   gap: 3rem;
 }
 
-.section__wrapper {
-  padding: 1.5rem;
-  border-radius: 5px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
-  .section__title {
-    font-size: 1em;
-    margin-bottom: 1rem;
-    color: $primaryDark;
-    text-transform: capitalize;
-  }
-
-  .section__content {
-    @include flex-center();
+@media screen and (max-width: 736px) {
+  .profile {
+    grid-template-columns: 1fr;
   }
 }
